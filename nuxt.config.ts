@@ -140,6 +140,7 @@ export default defineNuxtConfig({
       // @keep-sorted
       include: [
         '@nuxt/hints',
+        '@unhead/schema-org/vue',
         '@vueuse/integrations',
         '@vueuse/integrations/useFuse',
         'mdui/components/button-icon',
