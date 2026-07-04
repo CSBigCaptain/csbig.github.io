@@ -1,10 +1,4 @@
 <script lang="ts" setup>
-import blogConfig from '~~/blog.config'
-import LinkButton from '~/components/app/LinkButton.vue'
-import 'mdui/components/card'
-import 'mdui/components/button'
-import 'mdui/components/button-icon'
-
 const title = `CSBigCaptain (Yeshang Ji)`
 useSeoMeta({
   title,
@@ -12,17 +6,10 @@ useSeoMeta({
   twitterTitle: title,
 })
 
-const { data: actions } = await useAsyncData(
-  'indexActions',
-  () => {
-    return queryCollection('indexActions').first()
-  },
-  {
-    server: true,
-    lazy: false,
-    getCachedData: key => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-  },
-)
+definePageMeta({
+  layout: 'default',
+})
+
 const { data: posts } = await useAsyncData(
   'featuredPosts',
   () => {
@@ -48,43 +35,16 @@ const { data: advs } = await useAsyncData(
 </script>
 
 <template>
-  <NuxtLayout name="default">
+  <NuxtLayout>
     <template #topic-text>
       首页
     </template>
+    <template #full-width>
+      <IndexHeroSection />
+      <IndexSocialGrid />
+    </template>
     <main class="mx-auto w-full p-3.75 md:w-[80%]">
-      <picture class="avator">
-        <img :src="blogConfig.author.avatar" alt="author-avatar">
-      </picture>
       <section aria-label="Introduction" class="intro">
-        <AppField class="name">
-          <template #label>
-            <span class="text-5xl">🥳</span>
-          </template>
-          <h1>
-            <span class="large-text text-4xl font-semibold md:text-5xl">{{
-              blogConfig.author.name
-            }}</span>
-            <br>
-            <span class="text-lg leading-10 font-light md:text-2xl md:leading-13">{{
-              blogConfig.author.realName
-            }}</span>
-          </h1>
-          <div class="mt-5 flex flex-wrap gap-2">
-            <LinkButton
-              v-for="item in actions?.body"
-              :key="item.icon"
-              :style="item.style"
-              :icon="item.icon"
-              :end-icon="item.endIcon"
-              :href="item.link"
-              :target="item.target"
-              :variant="item.variant"
-            >
-              {{ item.text }}
-            </LinkButton>
-          </div>
-        </AppField>
         <AppField label="介绍">
           <p>
             我是一名食品科学与工程专业的学生，正在钻研前端技术 & <del>准备考研</del>。目前正在研究
@@ -138,7 +98,7 @@ const { data: advs } = await useAsyncData(
           </li>
         </ul>
         <AppMotionCard class="link flex items-center justify-center pt-7">
-          <LinkButton
+          <AppLinkButton
             icon="mdi:github"
             href="https://github.com/CSBigCaptain/csbigcaptain.github.io"
             end-icon="mdi:open-in-new"
@@ -146,7 +106,7 @@ const { data: advs } = await useAsyncData(
             variant="filled"
           >
             View Github Repository
-          </LinkButton>
+          </AppLinkButton>
         </AppMotionCard>
       </section>
     </main>
@@ -154,35 +114,83 @@ const { data: advs } = await useAsyncData(
 </template>
 
 <style lang="less" scoped>
-.avator {
-  font-size: min(100vw, 60vh);
-  margin-right: -0.15em;
-  opacity: 0.2;
-  position: fixed;
-  right: 19vw;
-  top: 25px;
-  z-index: -1;
+/* 背景花纹行：nth-child 偏移 */
+.pattern-row {
+  display: flex;
+  white-space: nowrap;
 
-  img {
-    width: 0.8em;
-    height: 0.8em;
-    border-radius: 50%;
-    object-fit: cover;
+  &:nth-child(4n + 1) {
+    margin-left: 0;
+  }
+  &:nth-child(4n + 2) {
+    margin-left: -8%;
+  }
+  &:nth-child(4n + 3) {
+    margin-left: -20%;
+  }
+  &:nth-child(4n) {
+    margin-left: -12%;
   }
 }
 
-.intro {
-  .name {
-    .large-text {
-      background: linear-gradient(
-        45deg,
-        rgba(var(--mdui-color-tertiary), 0.8),
-        rgba(var(--mdui-color-primary), 0.8)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+/* 花纹文字基础样式 */
+.pattern-char {
+  flex-shrink: 0;
+  font-weight: 700;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* 花纹文字 - 浅色层 */
+.pattern-char--light {
+  font-size: 3rem;
+  letter-spacing: 0.8em;
+  line-height: 2;
+  color: var(--color-outline-variant);
+  opacity: 0.1;
+}
+
+/* 花纹文字 - 暗色层 */
+.pattern-char--dark {
+  font-size: 2.25rem;
+  letter-spacing: 0.5em;
+  line-height: 1.75;
+  color: white;
+  opacity: 0.15;
+}
+
+/* 中间透明遮罩：让中心文字更易阅读 */
+.pattern-mask {
+  -webkit-mask-image: radial-gradient(
+    ellipse 45% 35% at center,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 1) 60%
+  );
+  mask-image: radial-gradient(
+    ellipse 45% 35% at center,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 1) 60%
+  );
+}
+
+/* 网格链接共享样式 */
+.grid-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  transition: background-color 0.3s ease;
+
+  // 右箭头图标动画
+  .right {
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:hover .right {
+    margin-left: 0.25em;
   }
 }
 </style>

@@ -1,11 +1,4 @@
 body:
-  - text: Read Articles
-    style: large
-    link: /blog
-    variant: filled
-    icon: 'ic:round-article'
-    endIcon: 'ic:round-arrow-forward-ios'
-    target: _self
   - style: small
     link: 'https://github.com/CSBigCaptain'
     variant: tonal
