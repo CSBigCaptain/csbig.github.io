@@ -5,7 +5,7 @@ date: 2026-02-06
 updated: 2026-02-21
 categories: [教程]
 tags: [Claude Code, AI 工具]
-isFeatured: true
+isFeatured: false
 schemaOrg:
   - type: 'BlogPosting'
     headline: '手把手教你配好 Claude Code'
