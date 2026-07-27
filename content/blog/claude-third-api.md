@@ -5,7 +5,7 @@ date: 2026-04-29
 update: 2026-05-27
 categories: [教程]
 tags: [Claude, AI 工具]
-isFeatured: true
+isFeatured: false
 ---
 
 之前我写过一篇 [手把手教你配好 Claude Code](/blog/claude-code)，讲的是怎么在 Claude Code 里配第三方 API。
@@ -40,4 +40,3 @@ isFeatured: true
 事实上，大多数的 API 平台都提供了 Anthropic API 的兼容接口，为什么还要特意去用路由功能代理呢？代理功能不仅能转换 API 格式，还能把模型的名称映射为 Claude 系列的模型，以绕过 Claude APP 对于第三方模型名称的限制。
 
 在 CC Switch 中找到“Claude Desktop”一栏，如果没有显示的话，需要去设置中打开。配置完供应商之后，在设置 -> 路由设置中找到路由开关并启用即可。做完上述操作后就可以享用 Claude APP 了。
-

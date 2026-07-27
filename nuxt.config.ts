@@ -161,6 +161,7 @@ export default defineNuxtConfig({
         'mdui/functions/setColorScheme',
         'mdui/functions/setTheme',
         'tslib/tslib.js',
+        'typed.js',
       ],
     },
     plugins: [tailwindcss() as any],

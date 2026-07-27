@@ -12,7 +12,7 @@ schemaOrg:
     author:
       type: 'Person'
       name: 'CSBigCaptain'
-    datePublished: '2026-03-27'
+    datePublished: '2026-06-16'
 ---
 
 最近“龙虾”的爆火，掀起了一股“养虾热”。越来越多的人了解到了 OpenClaw 这个强大的 AI 小玩具。相对于其他的 Agent，OpenClaw 安装简单，且社区插件丰富，能够轻易接入 Telegram、Discord、飞书等聊天软件。
@@ -22,9 +22,15 @@ schemaOrg:
 ## 准备条件
 
 - 一台能够 7x24 小时在线的电脑，亦或是一个云服务器（不需要对外暴露 OpenClaw 端口）。
-- 一个 API Key，需要自行去相关 AI 服务商购买。由于 **OpenClaw 会消耗巨量的 Tokens**，因此只建议购买 Coding Plan 这样的月付套餐。
+- 一个 API Key，需要自行去相关 AI 服务商购买。由于 **OpenClaw 会消耗巨量的 Tokens**，因此只建议购买 Coding Plan 这样的月付套餐来搭配龙虾使用。
 - 将手机微信更新到最新版本，目前电脑版不支持 OpenClaw 插件。
 - 一定的电脑操作经验：OpenClaw 并非大众软件，有一定使用门槛，不适合缺乏使用经验的同学使用。
+
+<!-- eslint-disable markdown/no-missing-link-fragments -->
+
+如果你觉得这些条件有些难，可以移步到[焚决 — WorkBuddy](#焚决-workbuddy)部分。
+
+<!-- eslint-enable markdown/no-missing-link-fragments -->
 
 ## 安装 OpenClaw
 
@@ -145,3 +151,13 @@ openclaw config set agents.mode per-channel-per-peer
 在你完成上面步骤之后，在终端中使用 `openclaw gateway` 命令以启动 OpenClaw，若控制台没有出现错误，一般就可以在微信中和你的“龙虾”进行交流了。
 
 若想关闭，在终端中按 `Ctrl + C` 后，静待一段时间会自动退出。
+
+## 焚决 — WorkBuddy
+
+如果前面这些步骤对于你来说有些困难，比如不会安装 Node、不会用 npm、没钱买 Tokens 等等，那么可以使用一些开箱即用的成熟工具可能会更适合你。
+
+腾讯推出了许多龙虾工具，有 [QClaw](https://qclaw.qq.com/)（腾讯电脑管家出品）和 [WorkBuddy](https://copilot.tencent.com/work/)（腾讯云出品）。由于我只用过 WorkBuddy，所以后面我就只拿 WorkBuddy 来举例了。
+
+进入软件登录账号后，找到「助理」界面，按照提示绑定微信账号或者是 QQ 机器人即可。
+
+> 请确保电脑中的 WorkBuddy 软件保持在线状态，否则你绑定的小龙虾「微信ClawBot」将无法正常工作。
