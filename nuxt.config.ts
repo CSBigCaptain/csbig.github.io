@@ -29,6 +29,10 @@ export default defineNuxtConfig({
         },
         {
           rel: 'stylesheet',
+          href: 'https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap',
+        },
+        {
+          rel: 'stylesheet',
           href: 'https://cdn-font.hyperos.mi.com/font/css?family=MiSans:100,200,300,400,450,500,600,650,700,900:Chinese_Simplify,Latin&display=swap',
           media: 'print',
           onload: 'this.media="all"',

@@ -4,7 +4,7 @@ import 'mdui/components/card'
 const ROWS = 12
 const REPEAT = 20
 const pattern = 'CSBIG'
-const CIRCLE_RADIUS = 220
+const CIRCLE_RADIUS = 150
 const HALF_POINTS = 49 // 每半圆 49 个点 (0~48)
 const TRAIL_COUNT = 6
 
@@ -121,7 +121,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="containerRef"
-    class="relative flex h-[calc(100dvh-224px)] flex-col items-center justify-center overflow-hidden bg-background"
+    class="relative flex flex-1 flex-col items-center justify-center overflow-hidden bg-background"
     @mousemove="onMouseMove"
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
@@ -129,30 +129,30 @@ onUnmounted(() => {
     <!-- 原始层：浅色底纹 + 原始内容 -->
     <div class="pattern-mask absolute inset-0 z-0 overflow-hidden">
       <div v-for="row in ROWS" :key="row" class="pattern-row">
-        <span v-for="n in REPEAT" :key="n" class="pattern-char pattern-char--light">{{
-          pattern
-        }}</span>
+        <span v-for="n in REPEAT" :key="n" class="pattern-char pattern-char--light">
+          {{ pattern }}</span>
       </div>
     </div>
-    <div class="relative z-1 text-5xl tracking-wider">
+    <div class="relative z-1 text-2xl tracking-wider sm:text-3xl lg:text-5xl 2xl:text-6xl">
       Hi, I'm CSBigCaptain.
     </div>
 
     <!-- 揭示层：暗色底纹 + 暗色内容，跟随鼠标圆形裁剪 -->
     <div
       ref="revealRef"
-      class="pointer-events-none absolute inset-0 z-2 bg-black"
+      class="pointer-events-none absolute inset-0 z-2 hidden bg-black md:block"
       style="clip-path: circle(0px at -300px -300px)"
     >
       <div class="pattern-mask absolute inset-0 overflow-hidden">
         <div v-for="row in DARK_ROWS" :key="`dark-${row}`" class="pattern-row">
-          <span v-for="n in DARK_REPEAT" :key="n" class="pattern-char pattern-char--dark">{{
-            pattern
-          }}</span>
+          <span v-for="n in DARK_REPEAT" :key="n" class="pattern-char pattern-char--dark">
+            {{ pattern }}
+          </span>
         </div>
       </div>
       <div
-        class="relative z-1 flex min-h-[70vh] items-center justify-center text-5xl tracking-wider text-white"
+        class="relative z-1 flex h-full items-center justify-center text-2xl tracking-wider sm:text-3xl lg:text-5xl 2xl:text-6xl"
+        style="color: rgb(var(--mdui-color-on-background-dark))"
       >
         Welcome to my blog.
       </div>

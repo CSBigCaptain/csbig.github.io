@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ButtonIcon } from 'mdui/components/button-icon.js'
 import type { Button } from 'mdui/components/button.js'
+import 'mdui/components/button'
 
 // @keep-sorted
 interface CompatibleButtonProps {

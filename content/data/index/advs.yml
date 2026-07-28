@@ -1,9 +1,9 @@
 body:
-  - title: 🤩 简约清爽
+  - title: 简约清爽
     detail: 基于 Material Design 3 设计语言，页面简约而不失美观。文章页面无复杂特效，减少阅读时不必要的视觉干扰。
-  - title: ✨ 个性化
+  - title: 个性化
     detail: 支持深浅切换，同时适配用户设备颜色偏好，避免首屏“闪光弹”；页面采用动态配色，用户可自定义自己喜欢的主题色。
-  - title: 🚀 超级快
+  - title: 超级快
     detail: 服务端渲染，无论是加载还是搜索都超级快！
-  - title: 🔍 SEO
+  - title: SEO
     detail: 引入 Nuxt SEO 模块，优化搜索引擎的索引和排名！

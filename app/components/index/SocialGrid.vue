@@ -15,40 +15,32 @@ const { data: actions } = await useAsyncData(
 </script>
 
 <template>
-  <div class="h-40 w-full border-y-2 border-outline-variant">
-    <div
-      class="grid h-full cursor-pointer grid-cols-2 divide-x-2 divide-outline-variant text-2xl font-semibold"
-    >
+  <div class="h-60 w-full border-y-2 border-outline-variant md:h-40">
+    <div class="social-grid flex h-full text-sm font-semibold sm:text-lg md:text-2xl">
       <NuxtLink
         to="/blog"
-        class="grid-link justify-end font-semibold hover:bg-surface-variant hover:text-on-surface-variant"
+        class="grid-link justify-end hover:bg-surface-variant hover:text-on-surface-variant"
       >
-        <div class="flex h-full w-full max-w-150 items-center justify-center">
+        <div class="actions-inner">
           Read Articles
           <Icon name="ic:baseline-chevron-right" class="right scale-125" />
         </div>
       </NuxtLink>
-      <div class="grid-link social-link">
-        <div class="relative flex h-full w-full max-w-150 items-center justify-center">
-          Social Media
-          <Icon name="ic:baseline-chevron-right" class="right scale-125" />
-          <div
-            class="absolute flex h-full w-full items-center justify-center bg-background opacity-0"
-          >
-            <div class="mt-5 flex flex-wrap gap-2">
-              <LinkButton
-                v-for="item in actions?.body"
-                :key="item.icon"
-                :style="item.style"
-                :icon="item.icon"
-                :end-icon="item.endIcon"
-                :href="item.link"
-                :target="item.target"
-                :variant="item.variant"
-              >
-                {{ item.text }}
-              </LinkButton>
-            </div>
+      <div class="grid-link justify-start">
+        <div class="actions-inner">
+          <div class="flex flex-wrap gap-2">
+            <LinkButton
+              v-for="item in actions?.body"
+              :key="item.icon"
+              :style="item.style"
+              :icon="item.icon"
+              :end-icon="item.endIcon"
+              :href="item.link"
+              :target="item.target"
+              :variant="item.variant"
+            >
+              {{ item.text }}
+            </LinkButton>
           </div>
         </div>
       </div>
@@ -57,12 +49,31 @@ const { data: actions } = await useAsyncData(
 </template>
 
 <style lang="less" scoped>
+.social-grid {
+  flex-direction: column;
+
+  > :not(:last-child) {
+    border-bottom-width: 2px;
+    border-color: rgb(var(--mdui-color-outline-variant));
+  }
+
+  @media (min-width: 48rem) {
+    flex-direction: row;
+
+    > :not(:last-child) {
+      border-bottom-width: 0;
+      border-inline-end-width: 2px;
+    }
+  }
+}
+
 /* 网格链接共享样式 */
 .grid-link {
+  flex: 1;
   display: flex;
   align-items: center;
   transition: background-color 0.3s ease;
-  cursor: pointer;
+  font-weight: var(--font-semibold);
 
   // 右箭头图标动画
   .right {
@@ -73,14 +84,13 @@ const { data: actions } = await useAsyncData(
     margin-left: 0.25em;
   }
 
-  &.social-link {
-    .absolute {
-      transition: opacity 0.3s ease;
-    }
-
-    &:hover .absolute {
-      opacity: 1;
-    }
+  .actions-inner {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    max-width: 48rem;
   }
 }
 </style>
