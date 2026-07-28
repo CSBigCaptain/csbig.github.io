@@ -46,7 +46,9 @@
   font-optical-sizing: auto;
   font-synthesis: weight style;
   font-variant-alternates: styleset(open-digits, disambiguation, round-quotes-and-commas);
+  font-feature-settings: 'chws' 1;
   scroll-behavior: smooth;
+  text-spacing-trim: trim-start;
 
   --inline-padding: 15px;
   --content-line-height: 1.5;
