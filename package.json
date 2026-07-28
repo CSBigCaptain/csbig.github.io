@@ -22,7 +22,7 @@
     "fuse.js": "^7.5.0",
     "katex": "0.18.1",
     "mdui": "^2.1.5",
-    "nuxt": "4.5.0",
+    "nuxt": "4.5.1",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "tailwindcss": "^4.3.3",
