@@ -20,16 +20,20 @@ export function useSearchDocs() {
     },
   )
 
-  const { results } = useFuse(query, computed(() => data.value ?? []), {
-    fuseOptions: {
-      keys: ['title', 'content', 'titles'],
-      threshold: 0.4,
-      includeScore: true,
-      includeMatches: true,
-      ignoreLocation: true,
+  const { results } = useFuse(
+    query,
+    computed(() => data.value ?? []),
+    {
+      fuseOptions: {
+        keys: ['title', 'content', 'titles'],
+        threshold: 0.4,
+        includeScore: true,
+        includeMatches: true,
+        ignoreLocation: true,
+      },
+      resultLimit: 20,
     },
-    resultLimit: 20,
-  })
+  )
 
   return {
     query,

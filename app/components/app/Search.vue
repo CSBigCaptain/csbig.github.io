@@ -48,15 +48,11 @@ const { query, results } = useSearchDocs()
         </p>
         <ul v-else class="m-0 flex list-none flex-col gap-2 p-0">
           <li v-for="item in results" :key="item.item.id">
-            <NuxtLink
-              :to="item.item.id"
-              class="text-inherit no-underline"
-              @click="emit('close')"
-            >
+            <NuxtLink :to="item.item.id" class="text-inherit no-underline" @click="emit('close')">
               <mdui-card
                 variant="filled"
                 clickable
-                class="bg-transparent box-border block w-full px-(--inline-padding) py-3"
+                class="box-border block w-full bg-transparent px-(--inline-padding) py-3"
               >
                 <div class="flex flex-col gap-0.5">
                   <div v-if="item.item.titles.length" class="text-xs opacity-60">
@@ -69,7 +65,7 @@ const { query, results } = useSearchDocs()
                 </div>
                 <div
                   v-if="item.item.content"
-                  class="mt-1 line-clamp-3 break-all text-sm"
+                  class="mt-1 line-clamp-3 text-sm break-all"
                   v-html="highlightMatch(item.item.content, item.matches, 'content')"
                 />
               </mdui-card>

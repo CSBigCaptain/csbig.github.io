@@ -3,7 +3,7 @@ const { isSupported, level, charging } = useBattery()
 </script>
 
 <template>
-  <mdui-button-icon>
+  <mdui-button-icon aria-label="电池信息">
     <Icon v-if="isSupported && charging" name="ic:round-battery-charging-full" />
     <Icon v-else-if="isSupported && level <= 0.1" name="ic:round-battery-0-bar" />
     <Icon v-else-if="isSupported && level <= 0.2" name="ic:round-battery-1-bar" />

@@ -127,7 +127,7 @@ onUnmounted(() => {
     @mouseleave="onMouseLeave"
   >
     <!-- 原始层：浅色底纹 + 原始内容 -->
-    <div class="pattern-mask absolute inset-0 z-0 overflow-hidden">
+    <div aria-hidden="true" class="pattern-mask absolute inset-0 z-0 overflow-hidden">
       <div v-for="row in ROWS" :key="row" class="pattern-row">
         <span v-for="n in REPEAT" :key="n" class="pattern-char pattern-char--light">
           {{ pattern }}</span>
@@ -143,7 +143,7 @@ onUnmounted(() => {
       class="pointer-events-none absolute inset-0 z-2 hidden bg-black md:block"
       style="clip-path: circle(0px at -300px -300px)"
     >
-      <div class="pattern-mask absolute inset-0 overflow-hidden">
+      <div aria-hidden="true" class="pattern-mask absolute inset-0 overflow-hidden">
         <div v-for="row in DARK_ROWS" :key="`dark-${row}`" class="pattern-row">
           <span v-for="n in DARK_REPEAT" :key="n" class="pattern-char pattern-char--dark">
             {{ pattern }}

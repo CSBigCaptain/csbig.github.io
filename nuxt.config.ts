@@ -21,25 +21,33 @@ export default defineNuxtConfig({
       htmlAttrs: { lang: 'zh-CN' },
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        {
-          rel: 'stylesheet',
-          href: 'https://rsms.me/inter/inter.css',
-          media: 'print',
-          onload: 'this.media="all"',
-        },
+        { rel: 'preconnect', href: 'https://rsms.me', crossorigin: 'anonymous' },
+        { rel: 'preconnect', href: 'https://api.fontshare.com', crossorigin: 'anonymous' },
+        { rel: 'preconnect', href: 'https://cdn-font.hyperos.mi.com', crossorigin: 'anonymous' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.cn', crossorigin: 'anonymous' },
         {
           rel: 'stylesheet',
           href: 'https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap',
+          crossorigin: 'anonymous',
+          fetchpriority: 'high',
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://rsms.me/inter/inter.css',
+          crossorigin: 'anonymous',
+          fetchpriority: 'low',
         },
         {
           rel: 'stylesheet',
           href: 'https://cdn-font.hyperos.mi.com/font/css?family=MiSans:100,200,300,400,450,500,600,650,700,900:Chinese_Simplify,Latin&display=swap',
-          media: 'print',
-          onload: 'this.media="all"',
+          crossorigin: 'anonymous',
+          fetchpriority: 'low',
         },
         {
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.cn/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap',
+          crossorigin: 'anonymous',
+          fetchpriority: 'high',
         },
       ],
       script: [

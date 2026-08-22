@@ -46,12 +46,12 @@
 :root {
   font-optical-sizing: auto;
   font-synthesis: weight style;
-font-variant-alternates: styleset(
+  font-variant-alternates: styleset(
     /* Inter Variable */ open-digits,
     disambiguation,
     round-quotes-and-commas
   );
-  font-feature-settings: 'ss03' 1, 'chws' 1;
+  font-feature-settings: 'chws' 1;
   scroll-behavior: smooth;
   text-spacing-trim: trim-start;
 

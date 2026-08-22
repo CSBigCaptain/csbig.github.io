@@ -20,7 +20,7 @@ async function copyCode() {
 
 <template>
   <div
-    class="code-wrapper shadow-l1 -mx-5 my-4 overflow-hidden rounded-none bg-surface-container-highest md:mx-0 md:rounded-md"
+    class="code-wrapper -mx-5 my-4 overflow-hidden rounded-none bg-surface-container-highest shadow-l1 md:mx-0 md:rounded-md"
     v-bind="$attrs"
   >
     <!-- 代码块头部 -->

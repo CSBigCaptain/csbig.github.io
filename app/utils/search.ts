@@ -7,7 +7,11 @@ import type { FuseResultMatch } from 'fuse.js'
  * @param key 需要高亮的字段名
  * @returns 带有高亮标签的 HTML 字符串
  */
-export function highlightMatch(text: string, matches: readonly FuseResultMatch[] | undefined, key: string): string {
+export function highlightMatch(
+  text: string,
+  matches: readonly FuseResultMatch[] | undefined,
+  key: string,
+): string {
   // 如果没有文本或匹配信息，直接返回原文本
   if (!text || !matches)
     return text

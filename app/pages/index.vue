@@ -23,7 +23,7 @@ definePageMeta({
       </div>
     </template>
     <main class="mx-auto w-full border-x-2 border-outline-variant">
-      <div class="h-30 border-b border-outline-variant" />
+      <div class="h-16 border-b border-outline-variant" />
       <IndexAboutMe />
       <IndexFavBlog />
       <IndexWhySection />
