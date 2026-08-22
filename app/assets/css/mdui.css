@@ -48,23 +48,26 @@
 }
 
 /* mdui shadows */
-@layer utilities {
-  .shadow-l0 {
-    box-shadow: none;
-  }
-  .shadow-l1 {
-    box-shadow: var(--mdui-elevation-level1);
-  }
-  .shadow-l2 {
-    box-shadow: var(--mdui-elevation-level2);
-  }
-  .shadow-l3 {
-    box-shadow: var(--mdui-elevation-level3);
-  }
-  .shadow-l4 {
-    box-shadow: var(--mdui-elevation-level4);
-  }
-  .shadow-l5 {
-    box-shadow: var(--mdui-elevation-level5);
-  }
+@utility shadow-l0 {
+  box-shadow: none;
+}
+
+@utility shadow-l1 {
+  box-shadow: var(--mdui-elevation-level1);
+}
+
+@utility shadow-l2 {
+  box-shadow: var(--mdui-elevation-level2);
+}
+
+@utility shadow-l3 {
+  box-shadow: var(--mdui-elevation-level3);
+}
+
+@utility shadow-l4 {
+  box-shadow: var(--mdui-elevation-level4);
+}
+
+@utility shadow-l5 {
+  box-shadow: var(--mdui-elevation-level5);
 }

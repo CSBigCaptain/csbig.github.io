@@ -1,171 +1,125 @@
 <script lang="ts" setup>
-import { useFuse } from '@vueuse/integrations/useFuse'
+import 'mdui/components/button-icon'
 import 'mdui/components/card'
+import 'mdui/components/dialog'
 import 'mdui/components/text-field'
 
-const query = ref('')
+const props = defineProps<{
+  open: boolean
+}>()
 
-const { data } = await useAsyncData(
-  'search-data',
-  () =>
-    queryCollectionSearchSections('blog' as never, {
-      ignoredTags: ['header', 'footer', 'pre', 'code', 'style', 'script'],
-    }),
-  {
-    server: true,
-    lazy: false,
-    getCachedData: key => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-  },
-)
+const emit = defineEmits<{
+  close: []
+}>()
 
-const { results } = useFuse(query, data.value || [], {
-  fuseOptions: {
-    keys: ['title', 'content', 'titles'],
-    threshold: 0.4,
-    includeScore: true,
-    includeMatches: true,
-    ignoreLocation: true,
-  },
-  resultLimit: 20,
-})
-
-// 添加高亮函数
-function highlightMatch(text: string, matches: any[], key: string) {
-  // 如果没有文本或匹配信息，直接返回原文本
-  if (!text || !matches)
-    return text
-
-  // 查找对应字段的匹配信息
-  const match = matches.find(m => m.key === key)
-  if (!match || !match.indices || !match.indices.length)
-    return text
-
-  // 根据匹配索引构建高亮文本
-  let result = ''
-  let lastIndex = 0
-
-  // 按顺序处理每个匹配区间
-  match.indices.forEach(([start, end]: [number, number]) => {
-    // 添加匹配前的文本
-    result += text.substring(lastIndex, start)
-    // 添加带高亮的匹配文本
-    result += `<span class="highlight">${text.substring(start, end + 1)}</span>`
-    // 更新上次处理位置
-    lastIndex = end + 1
-  })
-
-  // 添加最后一个匹配后的文本
-  result += text.substring(lastIndex)
-
-  return result
-}
+const { query, results } = useSearchDocs()
 </script>
 
 <template>
-  <div class="main">
-    <div class="input">
-      <mdui-text-field
-        :value="query"
-        placeholder="Search..."
-        clearable
-        @input="query = $event.target.value"
-      />
-    </div>
-    <div v-if="query" class="results">
-      <ul class="container">
-        <li v-for="item in results" :key="item.item.id">
-          <NuxtLink :to="item.item.id">
-            <mdui-card variant="filled" clickable>
-              <div class="upper">
-                <div class="titles">
-                  {{ item.item.titles[0] ? `${item.item.titles[0]} > ` : '' }}
-                  {{ item.item.titles[-1] }}
+  <mdui-dialog
+    class="search-dialog"
+    :open="props.open"
+    close-on-esc
+    close-on-overlay-click
+    @close="emit('close')"
+  >
+    <div class="flex min-h-0 flex-1 flex-col">
+      <div class="flex items-stretch gap-2 pb-3">
+        <mdui-text-field
+          class="min-w-0 flex-1"
+          variant="outlined"
+          :value="query"
+          placeholder="Search..."
+          clearable
+          @input="query = $event.target.value"
+        >
+          <Icon slot="icon" name="ic:round-search" />
+        </mdui-text-field>
+        <mdui-button-icon
+          class="hidden aspect-square h-auto w-auto items-center justify-center self-stretch max-sm:inline-flex"
+          @click="emit('close')"
+        >
+          <Icon name="ic:round-close" />
+        </mdui-button-icon>
+      </div>
+      <div v-if="query" class="min-h-0 flex-1 overflow-y-auto max-sm:max-h-[calc(70dvh-7rem)]">
+        <p v-if="!results.length" class="my-8 text-center opacity-60">
+          没有找到相关内容
+        </p>
+        <ul v-else class="m-0 flex list-none flex-col gap-2 p-0">
+          <li v-for="item in results" :key="item.item.id">
+            <NuxtLink :to="item.item.id" class="text-inherit no-underline" @click="emit('close')">
+              <mdui-card
+                variant="filled"
+                clickable
+                class="box-border block w-full bg-transparent px-(--inline-padding) py-3"
+              >
+                <div class="flex flex-col gap-0.5">
+                  <div v-if="item.item.titles.length" class="text-xs opacity-60">
+                    {{ item.item.titles.join(' › ') }}
+                  </div>
+                  <div
+                    class="text-base font-semibold"
+                    v-html="highlightMatch(item.item.title, item.matches, 'title')"
+                  />
                 </div>
                 <div
-                  class="title"
-                  v-html="highlightMatch(item.item.title, item.matches as any[], 'title')"
+                  v-if="item.item.content"
+                  class="mt-1 line-clamp-3 text-sm break-all"
+                  v-html="highlightMatch(item.item.content, item.matches, 'content')"
                 />
-              </div>
-              <div
-                v-if="item.item.content"
-                class="lower"
-                v-html="highlightMatch(item.item.content, item.matches as any[], 'content')"
-              />
-            </mdui-card>
-          </NuxtLink>
-        </li>
-      </ul>
+              </mdui-card>
+            </NuxtLink>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
+  </mdui-dialog>
 </template>
 
-<style scoped lang="less">
-.main {
-  width: 100vw;
-  max-width: 100%;
-  height: 100vh;
-  max-height: 100%;
+<style lang="less">
+.search-dialog {
+  --shape-corner: 16px;
 
-  .input {
-    width: 100%;
-    height: auto;
-    padding-bottom: var(--inline-padding);
+  &::part(panel) {
+    width: 720px;
+    max-width: calc(100vw - 32px);
+    height: 70vh;
+    padding: 24px;
   }
-  .results {
-    width: 100%;
-    height: auto;
-    min-height: 500px;
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      margin-block: 0;
-      margin-inline: 0;
-      margin: 0 auto;
+  &::part(body) {
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
-      li {
-        width: 100%;
-        padding: 5px 0px;
+  // 输入框圆角跟随 dialog 的 --shape-corner（该变量可继承进 shadow DOM）
+  mdui-text-field::part(container) {
+    padding-inline: 20px;
+    border-radius: var(--shape-corner);
+  }
 
-        mdui-card {
-          width: 100%;
-          padding: var(--inline-padding);
+  @media (max-width: 40rem) {
+    padding: 16px;
+    &::part(panel) {
+      width: calc(100vw - 32px);
+      height: auto;
+      max-height: 70dvh;
+    }
 
-          .upper {
-            width: 100%;
-            height: 2rem;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-
-            .titles {
-              height: 100%;
-              line-height: 1.5rem;
-              font-size: 1.1rem;
-              padding: 0.25rem;
-              font-weight: bold;
-            }
-          }
-
-          .lower {
-            width: 100%;
-            height: auto;
-            padding: 0.25rem;
-            font-size: 0.85rem;
-            line-height: 1.25rem;
-          }
-        }
-      }
+    &::part(body) {
+      height: auto;
     }
   }
 }
-</style>
 
-<style lang="less">
 .highlight {
+  padding: 0 2px;
+  border-radius: 3px;
   color: rgb(var(--mdui-color-primary));
-  background: rgb(var(--mdui-color-on-primary));
+  background: rgba(var(--mdui-color-primary), 0.15);
   font-weight: bold;
 }
 </style>

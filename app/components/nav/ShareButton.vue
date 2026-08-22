@@ -10,7 +10,7 @@ function share() {
 </script>
 
 <template>
-  <mdui-button-icon @click="share">
+  <mdui-button-icon aria-label="分享" @click="share">
     <Icon name="ic:round-share" />
   </mdui-button-icon>
 </template>

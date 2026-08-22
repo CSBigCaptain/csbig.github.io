@@ -15,7 +15,7 @@ const isHexColor = computed(() => {
 
 <template>
   <NavDropdown trigger="click">
-    <mdui-button-icon slot="trigger">
+    <mdui-button-icon slot="trigger" aria-label="个性化页面">
       <Icon name="ic:round-palette" />
     </mdui-button-icon>
     <NavDropdownCard width="180">
@@ -37,16 +37,22 @@ const isHexColor = computed(() => {
           <div class="button-collection">
             <mdui-button-icon
               variant="filled"
+              aria-label="应用主题色"
               :disabled="!isHexColor"
               @click="setColorTheme(selectedThemeColor)"
             >
               <Icon name="ic:round-check" />
             </mdui-button-icon>
-            <mdui-button-icon variant="tonal" @click="selectedThemeColor = setRandomColor()">
+            <mdui-button-icon
+              variant="tonal"
+              aria-label="随机主题色"
+              @click="selectedThemeColor = setRandomColor()"
+            >
               <Icon name="ic:baseline-auto-awesome" />
             </mdui-button-icon>
             <mdui-button-icon
               variant="outlined"
+              aria-label="重置主题色"
               @click="
                 () => {
                   setColorTheme(defaultThemeColor)

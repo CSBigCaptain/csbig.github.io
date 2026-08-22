@@ -47,14 +47,6 @@ export default defineContentConfig({
         ),
       }),
     }),
-    indexMain: defineCollection({
-      type: 'data',
-      source: 'data/index/main.yml',
-      schema: z.object({
-        name: z.string(),
-        text: z.string(),
-      }),
-    }),
     linkPageFriends: defineCollection({
       // @keep-sorted
       schema: z.object({

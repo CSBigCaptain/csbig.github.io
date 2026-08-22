@@ -2,7 +2,6 @@
 import 'mdui/components/navigation-drawer'
 import 'mdui/components/layout'
 import 'mdui/components/layout-main'
-import 'mdui/components/dialog'
 
 const { drawerStatus, searchStatus, closeAll } = useLayoutStatus()
 </script>
@@ -41,15 +40,7 @@ const { drawerStatus, searchStatus, closeAll } = useLayoutStatus()
           <NavigationDrawerList />
         </aside>
       </mdui-navigation-drawer>
-      <mdui-dialog
-        :open="searchStatus"
-        close-on-esc
-        close-on-overlay-click
-        headline="搜索"
-        @close="closeAll()"
-      >
-        <AppSearch />
-      </mdui-dialog>
+      <AppSearch :open="searchStatus" @close="closeAll()" />
     </ClientOnly>
   </div>
 </template>

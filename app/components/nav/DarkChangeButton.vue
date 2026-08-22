@@ -4,6 +4,7 @@ const { mduiDark, toggleDark } = useTheme()
 
 <template>
   <mdui-button-icon
+    aria-label="切换深浅模式"
     @click="
       () => {
         toggleDark[0]!()

@@ -14,6 +14,7 @@ const { toggleDrawerStatus } = useLayoutStatus()
         value=""
         type="button"
         variant="standard"
+        aria-label="导航菜单开关"
         @click="toggleDrawerStatus()"
       >
         <Icon name="ic:round-menu" />
