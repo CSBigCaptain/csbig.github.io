@@ -83,18 +83,5 @@ export default defineContentConfig({
         ),
       }),
     }),
-    navigationDrawerList: defineCollection({
-      type: 'data',
-      source: 'data/navigation-drawer/list.yml',
-      schema: z.object({
-        body: z.array(
-          z.object({
-            text: z.string(),
-            icon: z.string(),
-            link: z.string(),
-          }),
-        ),
-      }),
-    }),
   },
 })

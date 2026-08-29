@@ -3,21 +3,17 @@
 import 'mdui/components/list'
 import 'mdui/components/list-item'
 
-const { data } = await useAsyncData(
-  'NavigationDrawerList',
-  () => {
-    return queryCollection('navigationDrawerList').first()
-  },
-  {
-    server: true,
-    lazy: false,
-    getCachedData: (key) => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-  },
-)
+interface NavigationDrawerItem {
+  text: string
+  icon: string
+  link: string
+}
 
-const list = computed(() => {
-  return data.value?.body ?? []
-})
+const list: NavigationDrawerItem[] = [
+  { text: '首页', icon: '', link: '/' },
+  { text: '博客列表', icon: '', link: '/blog/' },
+  { text: '链接', icon: '', link: '/link/' },
+]
 </script>
 
 <template>
