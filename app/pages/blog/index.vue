@@ -11,14 +11,8 @@ useSeoMeta({
   ogDescription: description,
 })
 
-const { data: posts } = await useAsyncData(
-  'blogs',
-  () => queryCollection('blog').order('date', 'DESC').all(),
-  {
-    server: true,
-    lazy: false,
-    getCachedData: (key) => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-  },
+const { data: posts } = await useAsyncData('blogs', () =>
+  queryCollection('blog').order('date', 'DESC').all(),
 )
 
 const postsByYear = computed(() => {

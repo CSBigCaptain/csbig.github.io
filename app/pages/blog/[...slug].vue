@@ -1,17 +1,9 @@
 <script setup lang="ts">
 const route = useRoute()
 
-const { data: post } = await useAsyncData(
-  `blog-${route.path}`,
-  () => {
-    return queryCollection('blog').path(route.path).first()
-  },
-  {
-    server: true,
-    lazy: false,
-    getCachedData: key => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-  },
-)
+const { data: post } = await useAsyncData(`blog-${route.path}`, () => {
+  return queryCollection('blog').path(route.path).first()
+})
 
 const { name, description: siteDescription } = useSite()
 

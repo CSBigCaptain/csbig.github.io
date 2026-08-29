@@ -1,15 +1,7 @@
 <script lang="ts" setup>
-const { data: posts } = await useAsyncData(
-  'featuredPosts',
-  () => {
-    return queryCollection('blog').where('isFeatured', '=', true).order('date', 'DESC').all()
-  },
-  {
-    server: true,
-    lazy: false,
-    getCachedData: key => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-  },
-)
+const { data: posts } = await useAsyncData('featuredPosts', () => {
+  return queryCollection('blog').where('isFeatured', '=', true).order('date', 'DESC').all()
+})
 </script>
 
 <template>

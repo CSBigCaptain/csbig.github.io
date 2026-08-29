@@ -7,18 +7,10 @@ import { useFuse } from '@vueuse/integrations/useFuse'
 export function useSearchDocs() {
   const query = ref('')
 
-  const { data, status } = useAsyncData(
-    'search-data',
-    () =>
-      queryCollectionSearchSections('blog' as never, {
-        ignoredTags: ['header', 'footer', 'pre', 'code', 'style', 'script'],
-      }),
-    {
-      server: true,
-      lazy: false,
-      getCachedData: key => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-    },
-  )
+  const { data, status } = useAsyncData('search-data', () =>
+    queryCollectionSearchSections('blog' as never, {
+      ignoredTags: ['header', 'footer', 'pre', 'code', 'style', 'script'],
+    }))
 
   const { results } = useFuse(
     query,

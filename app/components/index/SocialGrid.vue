@@ -1,17 +1,9 @@
 <script lang="ts" setup>
 import LinkButton from '~/components/app/LinkButton.vue'
 
-const { data: actions } = await useAsyncData(
-  'indexActions',
-  () => {
-    return queryCollection('indexActions').first()
-  },
-  {
-    server: true,
-    lazy: false,
-    getCachedData: key => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-  },
-)
+const { data: actions } = await useAsyncData('indexActions', () => {
+  return queryCollection('indexActions').first()
+})
 </script>
 
 <template>

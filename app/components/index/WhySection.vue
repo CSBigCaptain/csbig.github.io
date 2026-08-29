@@ -1,9 +1,5 @@
 <script lang="ts" setup>
-const { data: advs } = await useAsyncData('indexAdvs', () => queryCollection('indexAdvs').first(), {
-  server: true,
-  lazy: false,
-  getCachedData: key => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-})
+const { data: advs } = await useAsyncData('indexAdvs', () => queryCollection('indexAdvs').first())
 
 const items = computed(() => advs.value?.body ?? [])
 </script>

@@ -13,24 +13,10 @@ useSeoMeta({
   twitterDescription: description,
 })
 
-const { data: friendsData } = await useAsyncData(
-  'linkPageFriends',
-  () => queryCollection('linkPageFriends').first(),
-  {
-    server: true,
-    lazy: false,
-    getCachedData: key => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-  },
-)
-const { data: toolsData } = await useAsyncData(
-  'linkPageTools',
-  () => queryCollection('linkPageTools').first(),
-  {
-    server: true,
-    lazy: false,
-    getCachedData: key => useNuxtApp().payload.data[key] || useNuxtApp().static.data[key],
-  },
-)
+const { data: friendsData } = await useAsyncData('linkPageFriends', () =>
+  queryCollection('linkPageFriends').first())
+const { data: toolsData } = await useAsyncData('linkPageTools', () =>
+  queryCollection('linkPageTools').first())
 </script>
 
 <template>
