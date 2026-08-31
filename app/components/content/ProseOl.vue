@@ -29,8 +29,8 @@ ol > li[content] {
   }
 }
 
-ol ol,
-ol ul {
+li[content] > ul,
+li[content] > ol {
   margin-block: 0.25rem;
 }
 

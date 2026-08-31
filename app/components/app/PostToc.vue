@@ -1,46 +1,79 @@
 <script lang="ts" setup>
 import 'mdui/components/button'
 
-const props = defineProps(['post'])
-const { activeHeadings, updateHeadings } = useScrollspy()
-
-const nuxtApp = useNuxtApp()
-
-nuxtApp.hooks.hook('page:loading:end', () => {
-  const headings = Array.from(
-    document.querySelectorAll('.prose-h4-container, .prose-h3, .prose-h2-container'),
-  )
-  updateHeadings(headings)
-})
-nuxtApp.hooks.hook('page:transition:finish', () => {
-  const headings = Array.from(
-    document.querySelectorAll('.prose-h4-container, .prose-h3, .prose-h2-container'),
-  )
-  updateHeadings(headings)
-})
-
-interface TocLink {
+export interface TocLink {
   id: string
   text?: string
   children?: TocLink[]
 }
 
+const props = defineProps<{ post?: { body?: { toc?: { links?: TocLink[] } } } }>()
+
+const { activeHeadings, updateHeadings } = useScrollspy()
+
+const nuxtApp = useNuxtApp()
+
+const headingSelector = '.prose-h4-container, .prose-h3, .prose-h2-container'
+
+nuxtApp.hooks.hook('page:loading:end', () => {
+  updateHeadings(Array.from(document.querySelectorAll(headingSelector)))
+})
+nuxtApp.hooks.hook('page:transition:finish', () => {
+  updateHeadings(Array.from(document.querySelectorAll(headingSelector)))
+})
+
 function flattenLinks(links: TocLink[]): TocLink[] {
   return links.flatMap(link => [link, ...(link.children ? flattenLinks(link.children) : [])])
 }
+
+const flatLinks = computed(() => flattenLinks(props.post?.body?.toc?.links ?? []))
+
+const linkHeight = 26
+
 const indicatorStyle = computed(() => {
   if (!activeHeadings.value?.length) {
     return
   }
 
-  const flatLinks = flattenLinks(props.post?.body?.toc?.links ?? [])
-  const activeIndex = flatLinks.findIndex(link => activeHeadings.value.includes(link.id))
+  const activeIndex = flatLinks.value.findIndex(link => activeHeadings.value.includes(link.id))
 
   return {
-    height: `${26 * activeHeadings.value.length}px`,
-    top: `${activeIndex * 26}px`,
+    height: `${linkHeight * activeHeadings.value.length}px`,
+    top: `${activeIndex * linkHeight}px`,
   }
 })
+
+const contentRef = useTemplateRef<HTMLElement>('contentRef')
+
+// 当活动链接变化时，保持其在列表中居中。
+// 直接滚动容器而不是使用 `scrollIntoView`，这样只有列表移动，页面不会滚动。
+watch(
+  () => flatLinks.value.findIndex(link => activeHeadings.value.includes(link.id)),
+  (index) => {
+    const container = contentRef.value
+    if (index < 0 || !container) {
+      return
+    }
+
+    nextTick(() => {
+      const link = container.querySelectorAll<HTMLElement>('a.link')[index]
+      if (!link) {
+        return
+      }
+
+      const containerRect = container.getBoundingClientRect()
+      const linkRect = link.getBoundingClientRect()
+      const linkOffset = linkRect.top - containerRect.top + container.scrollTop
+
+      container.scrollTo({
+        top: linkOffset - container.clientHeight / 2 + linkRect.height / 2,
+        behavior: 'smooth',
+      })
+    })
+  },
+)
+
+const { style: scrollShadowStyle } = useScrollShadow(contentRef)
 </script>
 
 <template>
@@ -49,12 +82,16 @@ const indicatorStyle = computed(() => {
       <Icon slot="icon" name="ic:outline-article" />
       On this page
     </mdui-button>
-    <div class="content max-h-[60vh] overflow-y-auto overscroll-contain pl-4">
+    <div
+      ref="contentRef"
+      class="content max-h-[60vh] overflow-y-auto overscroll-contain pl-4"
+      :style="scrollShadowStyle"
+    >
       <div class="indicator relative bg-surface-container-highest">
         <div class="absolute left-0 w-full bg-primary duration-200" :style="indicatorStyle" />
       </div>
       <ul class="md:text-md pl-3 text-sm lg:pl-4">
-        <li v-for="item in props.post.body.toc.links" :key="item.id">
+        <li v-for="item in props.post?.body?.toc?.links" :key="item.id">
           <NuxtLink
             :to="`#${item.id}`"
             class="link"
@@ -102,9 +139,6 @@ const indicatorStyle = computed(() => {
 }
 
 ul {
-  // 覆盖 Prose 组件设置的 margin
-  margin: 0;
-
   & ul {
     padding-left: 1em;
   }

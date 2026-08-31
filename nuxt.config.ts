@@ -195,6 +195,10 @@ export default defineNuxtConfig({
       standalone: false,
     },
   },
+  icon: {
+    serverBundle: 'unpkg',
+    fallbackToApi: true,
+  },
   ogImage: false,
   robots: {
     // sitemap 模块依赖于 robots 模块

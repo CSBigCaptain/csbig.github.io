@@ -5,7 +5,7 @@ import Typed from 'typed.js'
 const { data } = await useAsyncData(
   'random-sentence',
   async () => {
-    const res = await $fetch<any>('https://open.saintic.com/api/sentence/')
+    const res = await $fetch<any>('https://hub.saintic.com/openservice/sentence/')
     return {
       sentence: res?.data?.sentence || '',
       author: res?.data?.author || '',
